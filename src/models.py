@@ -13,10 +13,11 @@ class Usuario(Base):
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    user_name = Column(String(250), default= {name})
+    user_name = Column(String(250))
     password = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
-   
+
+ 
 
 class Characters(Base):
     __tablename__ = 'characters'
@@ -24,6 +25,7 @@ class Characters(Base):
     name = Column(String(250), nullable=False)
     Homeworld = Column(String(250), nullable=False)
 
+    
 class Planets(Base):
     __tablename__ = 'planets'
     id = Column(Integer, primary_key=True)
@@ -31,12 +33,19 @@ class Planets(Base):
     Residents = Column(String(250), nullable=False)
 
 
-class Favs(Base):
-    __tablename__ = 'Favs'
-    planets_id = Column(String(250), nullable=False)
-    characters_id = Column(Integer)
-    total = Column(Integer )
-    
+class FavsP(Base):
+    __tablename__ = 'FavsP'
+    id = Column(Integer, primary_key=True)
+    planets_id = Column(String(250), ForeignKey('planets.id'), nullable=False)
+    user_id = Column(Integer,  ForeignKey('user.id'), nullable=False)
+
+   
+
+class FavsCh(Base):
+    __tablename__ = 'FavsCh'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(String(250), ForeignKey('user.id'), nullable=False)
+    characters_id = Column(Integer, ForeignKey('characters.id'))
 
     def to_dict(self):
         return {}
